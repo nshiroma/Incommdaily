@@ -55,6 +55,47 @@ if (mysqli_query($conn, $sql)) {
     echo $sql;
     die("sql error" . mysqli_error($conn));
 }
+// Siras_Return_Monthly
+// table name T_Siras_Return_Monthly
+$sql = "DROP TABLE IF EXISTS T_Siras_Return_Monthly;";
+
+if (mysqli_query($conn, $sql)) {
+    echo "good sql statment";
+} else {
+    echo $sql;
+    die("sql error" . mysqli_error($conn));
+}
+$sql = "CREATE Table T_Siras_Return_Monthly
+        select left(T_IncommData.ReturnTransactionDate,6) AS ReturnTransactionMonth, T_IncommData.ModelNumber,
+        count(T_IncommData.ModelNumber) AS cntModel from T_IncommData where ((T_IncommData.SaleRetailerName = 'Walmart USA') and
+        (T_IncommData. ReturnTransactionDate > '20220101'))
+        group by T_IncommData.ModelNumber,left(T_IncommData.ReturnTransactionDate,6)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "good sql statment";
+} else {
+    echo $sql;
+    die("sql error" . mysqli_error($conn));
+}
+$sql = "ALTER TABLE T_Siras_Return_Monthly
+        ADD id INT AUTO_INCREMENT PRIMARY KEY";
+
+if (mysqli_query($conn, $sql)) {
+    echo "good sql statment";
+} else {
+    echo $sql;
+    die("sql error" . mysqli_error($conn));
+}
+$sql = "ALTER TABLE T_Siras_Return_Monthly
+        ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
+        UPDATE CURRENT_TIMESTAMP";
+
+if (mysqli_query($conn, $sql)) {
+    echo "good sql statment";
+} else {
+    echo $sql;
+    die("sql error" . mysqli_error($conn));
+}
 // Close connection
 mysqli_close($conn);
 
