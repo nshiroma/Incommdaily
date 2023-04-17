@@ -1,8 +1,8 @@
 <?php
-$servername = "exchange.fsc-portal.com";
+$servername = "127.0.0.1";
 $username = "nshiroma";
-$password = “*******";
-$dbname = "fsc_return";
+$password = "TwTtInMPJh91tqRg";
+$dbname = "Incomm";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -10,5 +10,8 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
+}
+else{
+    $echo "good connection to Incomm database";
 }
 ?>
