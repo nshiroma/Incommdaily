@@ -25,20 +25,10 @@ if (mysqli_query($conn, $sql)) {
     die("sql error" . mysqli_error($conn));
 }
 $sql = "CREATE Table T_Siras_Sales_Monthly
-       SELECT
-       LEFT(t1.SaleTransactionDate, 6) AS SaleTransactionMonth,
-       t1.ModelNumber,
-       COUNT(t1.ModelNumber) AS cntModel
-        FROM (
-        SELECT
-        MAX(T_IncommData.SaleTransactionDate) AS SaleTransactionDate,
-        MAX(T_IncommData.ModelNumber) AS ModelNumber
-        FROM T_IncommData
-        WHERE T_IncommData.SaleRetailerName = 'Walmart USA' AND
-          T_IncommData.SaleTransactionDate > '20220101'
-        GROUP BY T_IncommData.ModelNumber, T_IncommData.SerialNumber
-        ) AS t1
-        GROUP BY t1.ModelNumber, LEFT(t1.SaleTransactionDate, 6)";
+        select left(T_IncommData.SaleTransactionDate,6) AS
+        SaleTransactionMonth, T_IncommData.ModelNumber, count(T_IncommData.ModelNumber) AS cntModel
+        from T_IncommData where ((T_IncommData.SaleRetailerName = 'Walmart USA') and (T_IncommData.SaleTransactionDate > '20220101'))
+        group by T_IncommData.ModelNumber,left(T_IncommData.SaleTransactionDate,6)";
 
 if (mysqli_query($conn, $sql)) {
     echo "good sql statment";
@@ -76,23 +66,10 @@ if (mysqli_query($conn, $sql)) {
     die("sql error" . mysqli_error($conn));
 }
 $sql = "CREATE Table T_Siras_Return_Monthly
-        select
-        left(t1.ReturnTransactionDate,6) AS ReturnTransactionMonth,
-        t1.ModelNumber,
-        count(t1.ModelNumber) AS cntModel
-        from
-        (
-                       select
-            max(T_IncommData.ReturnTransactionDate) as ReturnTransactionDate,
-            max(T_IncommData.ModelNumber) as ModelNumber
-            from T_IncommData
-            where ((T_IncommData.SaleRetailerName = 'Walmart USA') and
-                   (T_IncommData.ReturnTransactionDate > '20220101'))
-            group by T_IncommData.ModelNumber, T_IncommData.SerialNumber
-        ) as t1
-
-        group by t1.ModelNumber, left(t1.ReturnTransactionDate,6)
-        ";
+        select left(T_IncommData.ReturnTransactionDate,6) AS ReturnTransactionMonth, T_IncommData.ModelNumber,
+        count(T_IncommData.ModelNumber) AS cntModel from T_IncommData where ((T_IncommData.SaleRetailerName = 'Walmart USA') and
+        (T_IncommData. ReturnTransactionDate > '20220101'))
+        group by T_IncommData.ModelNumber,left(T_IncommData.ReturnTransactionDate,6)";
 
 if (mysqli_query($conn, $sql)) {
     echo "good sql statment";
@@ -130,23 +107,10 @@ if (mysqli_query($conn, $sql)) {
     die("sql error" . mysqli_error($conn));
 }
 $sql = "CREATE Table T_Siras_Sales_ST_Monthly
-        select
-        left(t1.SaleTransactionDate,6) AS SaleTransactionMonth,
-        t1.ModelNumber,
-        count(t1.ModelNumber) AS cntModel,
-        t1.SaleStateProvinceCode
-        from
-        (
-            select
-            max(T_IncommData.SaleTransactionDate) as SaleTransactionDate,
-            max(T_IncommData.ModelNumber) as ModelNumber,
-            max(T_IncommData.SaleStateProvinceCode) as SaleStateProvinceCode
-            from T_IncommData
-            where ((T_IncommData.SaleRetailerName = 'Walmart USA') and
-                   (T_IncommData.SaleTransactionDate > '20220101'))
-            group by T_IncommData.ModelNumber, T_IncommData.SerialNumber
-        ) as t1
-        group by t1.ModelNumber,left(t1.SaleTransactionDate,6), t1.SaleStateProvinceCode";
+        select left(T_IncommData.SaleTransactionDate,6) AS SaleTransactionMonth, T_IncommData.ModelNumber,
+        count(T_IncommData.ModelNumber) AS cntModel, T_IncommData.SaleStateProvinceCode from T_IncommData
+        where ((T_IncommData.SaleRetailerName = 'Walmart USA') and (T_IncommData.SaleTransactionDate > '20220101'))
+        group by T_IncommData.ModelNumber,left(T_IncommData.SaleTransactionDate,6), T_IncommData.SaleStateProvinceCode";
 
 if (mysqli_query($conn, $sql)) {
     echo "good sql statment";
